@@ -62,17 +62,18 @@ const CaptureBirthdayIntentHandler = {
     },
     async handle(handlerInput) {
         const yesOrNo = handlerInput.requestEnvelope.request.intent.slots.YesOrNo.value;
+        console.log('yes or no:' + yesOrNo);
         const attributesManager = handlerInput.attributesManager;
 
-        const dishesStatus = {'areDishesDirty': yesOrNo}
+        const dishesStatus = {'areDishesDirty' : yesOrNo};
 
         attributesManager.setPersistentAttributes(dishesStatus);
         await attributesManager.savePersistentAttributes();
 
         if (yesOrNo === 'yes') {
-            speakOutput = 'Ok, I will now say the dishes are dirty'
+            speakOutput = 'Ok, I will now say the dishes are dirty';
         } else if (yesOrNo === 'no') {
-            speakOutput = 'Ok, I will now say the dishes are clean'
+            speakOutput = 'Ok, I will now say the dishes are clean';
         }
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -215,7 +216,7 @@ exports.handler = Alexa.SkillBuilders.custom()
         SessionEndedRequestHandler,
         IntentReflectorHandler)
     .addRequestInterceptors(
-        LoadBirthdayInterceptor
+        loadDishesStatus
     )
     .addErrorHandlers(
         ErrorHandler)
