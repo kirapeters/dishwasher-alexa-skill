@@ -12,23 +12,29 @@ const LaunchRequestHandler = {
     handle(handlerInput) {
         const speakOutput = `Welcome to my dishwasher. I will keep track of whether your dishes are dirty or clean.
             Are the dishes in your dish washer dirty?`;
-        const repromptText = 'If I had dishes, I would say my dishes are clean. What about your dishes?'
+        const repromptText = 'Yes my dishes are dirty. What about your dishes?'
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            .reprompt(speakOutput)
+            .reprompt(repromptText)
             .getResponse();
     }
 };
 
-const HelloWorldIntentHandler = {
+const CaptureBirthdayIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
+            &&
+            Alexa.getIntentName(handlerInput.requestEnvelope) === 'DishesStatusIntent';
     },
     handle(handlerInput) {
-        const speakOutput = 'Hello World!';
+        const yesOrNo = handlerInput.requestEnvelope.request.intent.slots.YesOrNo.value;
 
+        if (yesOrNo === 'yes') {
+            speakOutput = 'Ok, I will now say the dishes are dirty'
+        } else if (yesOrNo === 'no') {
+            speakOutput = 'Ok, I will now say the dishes are clean'
+        }
         return handlerInput.responseBuilder
             .speak(speakOutput)
             //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
@@ -38,8 +44,8 @@ const HelloWorldIntentHandler = {
 
 const HelpIntentHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest' &&
+            Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
         const speakOutput = 'You can say hello to me! How can I help?';
@@ -53,9 +59,9 @@ const HelpIntentHandler = {
 
 const CancelAndStopIntentHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && (Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent'
-                || Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest' &&
+            (Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent' ||
+                Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
     },
     handle(handlerInput) {
         const speakOutput = 'Goodbye!';
@@ -72,8 +78,8 @@ const CancelAndStopIntentHandler = {
  * */
 const FallbackIntentHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.FallbackIntent';
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest' &&
+            Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.FallbackIntent';
     },
     handle(handlerInput) {
         const speakOutput = 'Sorry, I don\'t know about that. Please try again.';
@@ -146,7 +152,7 @@ const ErrorHandler = {
 exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         LaunchRequestHandler,
-        HelloWorldIntentHandler,
+        CaptureBirthdayIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         FallbackIntentHandler,
