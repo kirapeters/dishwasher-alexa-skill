@@ -12,10 +12,11 @@ const LaunchRequestHandler = {
     handle(handlerInput) {
         const speakOutput = `Welcome to my dishwasher. I will keep track of whether your dishes are dirty or clean.
             Are the dishes in your dish washer dirty?`;
+        const repromptText = 'If I had dishes, I would say my dishes are clean. What about your dishes?'
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            //.reprompt(speakOutput)
+            .reprompt(speakOutput)
             .getResponse();
     }
 };
