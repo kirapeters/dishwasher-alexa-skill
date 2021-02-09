@@ -35,10 +35,112 @@
         {
           "name": "AMAZON.FallbackIntent",
           "samples": []
+        },
+        {
+          "name": "DishesStatusIntent",
+          "slots": [
+            {
+              "name": "YesOrNo",
+              "type": "YesOrNo"
+            }
+          ],
+          "samples": [
+            "{YesOrNo}"
+          ]
         }
       ],
-      "types": []
-    }
+      "types": [
+        {
+          "values": [
+            {
+              "name": {
+                "value": "no",
+                "synonyms": [
+                  "nah",
+                  "no they're not",
+                  "nope"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "yes",
+                "synonyms": [
+                  "yes they are",
+                  "yup",
+                  "you know it",
+                  "yeah"
+                ]
+              }
+            }
+          ],
+          "name": "YesOrNo"
+        },
+        {
+          "values": [
+            {
+              "name": {
+                "value": "dirty",
+                "synonyms": [
+                  "used",
+                  "greasy",
+                  "filthy",
+                  "soiled"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "clean",
+                "synonyms": [
+                  "spotless",
+                  "washed",
+                  "immaculate",
+                  "shiny"
+                ]
+              }
+            }
+          ],
+          "name": "DirtyOrClean"
+        }
+      ]
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "DishesStatusIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "YesOrNo",
+              "type": "YesOrNo",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.854961137186.150722619073"
+              }
+            }
+          ]
+        }
+      ],
+      "delegationStrategy": "ALWAYS"
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Slot.854961137186.150722619073",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "They are dirty?"
+          },
+          {
+            "type": "PlainText",
+            "value": "Yes, they are dirty?"
+          }
+        ]
+      }
+    ]
   },
-  "version": "2"
+  "version": "3"
 }
