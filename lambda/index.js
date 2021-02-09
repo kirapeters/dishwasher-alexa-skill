@@ -103,23 +103,26 @@ const CleanOrDirtyIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             &&
-            Alexa.getIntentName(handlerInput.requestEnvelope) === 'DishesStatusIntent';
+            Alexa.getIntentName(handlerInput.requestEnvelope) === 'CleanOrDirtyResponseIntent';
     },
     async handle(handlerInput) {
-        const yesOrNo = handlerInput.requestEnvelope.request.intent.slots.YesOrNo.value;
-        console.log('yes or no:' + yesOrNo);
+        const areOrAreNot = handlerInput.requestEnvelope.request.intent.slots.AreOrAreNot.value;
+        const dirtyOrClean = handlerInput.requestEnvelope.request.intent.slots.DirtyOrClean.value;
         const attributesManager = handlerInput.attributesManager;
+        let areDishesDirty = '';
 
-        const dishesStatus = {'areDishesDirty' : yesOrNo};
+        if ((areOrAreNot === 'are' && dirtyOrClean === 'dirty') || (areOrAreNot === 'are not' && dirtyOrClean === 'clean')) {
+            areDishesDirty = 'yes';
+            speakOutput = "I'll remember the dishes are dirty";
+        } else {
+            areDishesDirty = 'no';
+            speakOutput = "I'll remember the dishes are clean";
+        }
+        const dishesStatus = {'areDishesDirty' : areDishesDirty};
 
         attributesManager.setPersistentAttributes(dishesStatus);
         await attributesManager.savePersistentAttributes();
 
-        if (yesOrNo === 'yes') {
-            speakOutput = 'Ok, I will now say the dishes are dirty';
-        } else if (yesOrNo === 'no') {
-            speakOutput = 'Ok, I will now say the dishes are clean';
-        }
         return handlerInput.responseBuilder
             .speak(speakOutput)
             //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
@@ -255,6 +258,7 @@ exports.handler = Alexa.SkillBuilders.custom()
         VisitedAgainLaunchRequestHandler,
         LaunchRequestHandler,
         YesOrNoIntentHandler,
+        CleanOrDirtyIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         FallbackIntentHandler,
