@@ -12,7 +12,7 @@ const LaunchRequestHandler = {
     },
     handle(handlerInput) {
         const speakOutput = `Welcome to my dishwasher.
-            Are the dishes in your dish washer dirty?`;
+            Are the dishes in your dishwasher dirty?`;
         const repromptText = 'Yes my dishes are dirty. What about your dishes?'
 
         return handlerInput.responseBuilder
@@ -41,6 +41,7 @@ const HasDishesLaunchRequestHandler = {
         const areDishesDirty = sessionAttributes.hasOwnProperty('areDishesDirty') ? sessionAttributes.areDishesDirty : 0;
 
         let dishesStatus = '';
+        let speakOutput = '';
         if (areDishesDirty === 'yes') {
             dishesStatus = 'dirty';
         } else if (areDishesDirty === 'no') {
@@ -48,13 +49,51 @@ const HasDishesLaunchRequestHandler = {
         }
         const speakOutput = 'Welcome back. It looks like your dishes are ' + dishesStatus;
 
+        if (dishesStatus == '') {
+            speakOutput = 'Sorry, I did not understand. Please answer with yes or no.'
+        }
+
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .getResponse();
     }
 };
 
-const CaptureBirthdayIntentHandler = {
+/**
+ * This intent handles yes or no responses.
+ */
+const YesOrNoIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            &&
+            Alexa.getIntentName(handlerInput.requestEnvelope) === 'DishesStatusIntent';
+    },
+    async handle(handlerInput) {
+        const yesOrNo = handlerInput.requestEnvelope.request.intent.slots.YesOrNo.value;
+        console.log('yes or no:' + yesOrNo);
+        const attributesManager = handlerInput.attributesManager;
+
+        const dishesStatus = {'areDishesDirty' : yesOrNo};
+
+        attributesManager.setPersistentAttributes(dishesStatus);
+        await attributesManager.savePersistentAttributes();
+
+        if (yesOrNo === 'yes') {
+            speakOutput = 'Ok, I will now say the dishes are dirty';
+        } else if (yesOrNo === 'no') {
+            speakOutput = 'Ok, I will now say the dishes are clean';
+        }
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
+            .getResponse();
+    }
+};
+
+/**
+ * If a yes or no is not detected, this intent will see if the user responded with clean or dirty.
+ */
+const CleanOrDirtyIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             &&
@@ -209,7 +248,7 @@ exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         HasDishesLaunchRequestHandler,
         LaunchRequestHandler,
-        CaptureBirthdayIntentHandler,
+        YesOrNoIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         FallbackIntentHandler,
