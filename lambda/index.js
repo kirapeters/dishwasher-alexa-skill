@@ -10,8 +10,8 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = 'Welcome to my dishwasher. I will keep track of whether your dishes are dirty or clean." +
-            "Are the dishes in your dish washer dirty?';
+        const speakOutput = `Welcome to my dishwasher. I will keep track of whether your dishes are dirty or clean.
+            Are the dishes in your dish washer dirty?`;
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
