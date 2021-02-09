@@ -46,6 +46,24 @@
             "{YesOrNo} my dishes are clean",
             "{YesOrNo}"
           ]
+        },
+        {
+          "name": "CleanOrDirtyResponseIntent",
+          "slots": [
+            {
+              "name": "DirtyOrClean",
+              "type": "DirtyOrClean"
+            },
+            {
+              "name": "AreOrAreNot",
+              "type": "AreOrAreNot"
+            }
+          ],
+          "samples": [
+            "My dishes {AreOrAreNot} {DirtyOrClean}",
+            "They {AreOrAreNot} {DirtyOrClean}",
+            "The dishes {AreOrAreNot} {DirtyOrClean}"
+          ]
         }
       ],
       "types": [
@@ -101,6 +119,27 @@
             }
           ],
           "name": "DirtyOrClean"
+        },
+        {
+          "values": [
+            {
+              "name": {
+                "value": "are not",
+                "synonyms": [
+                  "is not"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "are",
+                "synonyms": [
+                  "is"
+                ]
+              }
+            }
+          ],
+          "name": "AreOrAreNot"
         }
       ]
     },
@@ -141,5 +180,5 @@
       }
     ]
   },
-  "version": "7"
+  "version": "8"
 }
