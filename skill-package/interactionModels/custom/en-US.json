@@ -32,6 +32,18 @@
             }
           ],
           "samples": [
+            "{YesOrNo} the dishes are not clean",
+            "{YesOrNo} the dishes are clean",
+            "{YesOrNo} the dishes are not dirty",
+            "{YesOrNo} the dishes are dirty",
+            "{YesOrNo} they are not clean",
+            "{YesOrNo} they are clean",
+            "{YesOrNo} they are not dirty",
+            "{YesOrNo} they are dirty",
+            "{YesOrNo} my dishes are not dirty",
+            "{YesOrNo} my dishes are dirty",
+            "{YesOrNo} my dishes are not clean",
+            "{YesOrNo} my dishes are clean",
             "{YesOrNo}"
           ]
         }
@@ -129,5 +141,5 @@
       }
     ]
   },
-  "version": "4"
+  "version": "7"
 }

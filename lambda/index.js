@@ -22,7 +22,7 @@ const LaunchRequestHandler = {
     }
 };
 
-const HasDishesLaunchRequestHandler = {
+const VisitedAgainLaunchRequestHandler = {
     canHandle(handlerInput) {
 
         const attributesManager = handlerInput.attributesManager;
@@ -42,12 +42,17 @@ const HasDishesLaunchRequestHandler = {
 
         let dishesStatus = '';
         let speakOutput = '';
+        let speakOutputPlus = '';
+
         if (areDishesDirty === 'yes') {
             dishesStatus = 'dirty';
+            speakOutputPlus = 'Are they still dirty?';
         } else if (areDishesDirty === 'no') {
             dishesStatus = 'clean';
+            speakOutputPlus = 'Are they dirty now?';
         }
-        const speakOutput = 'Welcome back. It looks like your dishes are ' + dishesStatus;
+        const speakOutput = 'Welcome back. I remember your dishes were ' + dishesStatus;
+        const repromptText = 'Yes or no.' + speakOutputPlus;
 
         if (dishesStatus == '') {
             speakOutput = 'Sorry, I did not understand. Please answer with yes or no.'
@@ -55,6 +60,7 @@ const HasDishesLaunchRequestHandler = {
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
+            .reprompt(repromptText)
             .getResponse();
     }
 };
@@ -246,7 +252,7 @@ exports.handler = Alexa.SkillBuilders.custom()
         new persistenceAdapter.S3PersistenceAdapter({bucketName:process.env.S3_PERSISTENCE_BUCKET})
         )
     .addRequestHandlers(
-        HasDishesLaunchRequestHandler,
+        VisitedAgainLaunchRequestHandler,
         LaunchRequestHandler,
         YesOrNoIntentHandler,
         HelpIntentHandler,
