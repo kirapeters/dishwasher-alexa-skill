@@ -51,7 +51,7 @@ const VisitedAgainLaunchRequestHandler = {
             dishesStatus = 'clean';
             speakOutputPlus = 'Are they dirty now?';
         }
-        speakOutput = 'Welcome back. I remember your dishes were ' + dishesStatus;
+        speakOutput = 'Welcome back. I remember your dishes were ' + dishesStatus + " " + speakOutputPlus;
         const repromptText = 'Yes or no.' + speakOutputPlus;
 
         if (dishesStatus === '') {
