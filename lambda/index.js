@@ -4,13 +4,14 @@
  * session persistence, api calls, and more.
  * */
 const Alexa = require('ask-sdk-core');
+const persistenceAdapter = require('ask-sdk-s3-persistence-adapter');
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = `Welcome to my dishwasher. I will keep track of whether your dishes are dirty or clean.
+        const speakOutput = `Welcome to my dishwasher.
             Are the dishes in your dish washer dirty?`;
         const repromptText = 'Yes my dishes are dirty. What about your dishes?'
 
@@ -21,14 +22,52 @@ const LaunchRequestHandler = {
     }
 };
 
+const HasDishesLaunchRequestHandler = {
+    canHandle(handlerInput) {
+
+        const attributesManager = handlerInput.attributesManager;
+        const sessionAttributes = attributesManager.getSessionAttributes() || {};
+
+        const areDishesDirty = sessionAttributes.hasOwnProperty('areDishesDirty') ? sessionAttributes.areDishesDirty : 0;
+
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest'
+            && areDishesDirty;
+    },
+    handle(handlerInput) {
+
+        const attributesManager = handlerInput.attributesManager;
+        const sessionAttributes = attributesManager.getSessionAttributes() || {};
+
+        const areDishesDirty = sessionAttributes.hasOwnProperty('areDishesDirty') ? sessionAttributes.areDishesDirty : 0;
+
+        let dishesStatus = '';
+        if (areDishesDirty === 'yes') {
+            dishesStatus = 'dirty';
+        } else if (areDishesDirty === 'no') {
+            dishesStatus = 'clean';
+        }
+        const speakOutput = 'Welcome back. It looks like your dishes are ' + dishesStatus;
+
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .getResponse();
+    }
+};
+
 const CaptureBirthdayIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             &&
             Alexa.getIntentName(handlerInput.requestEnvelope) === 'DishesStatusIntent';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const yesOrNo = handlerInput.requestEnvelope.request.intent.slots.YesOrNo.value;
+        const attributesManager = handlerInput.attributesManager;
+
+        const dishesStatus = {'areDishesDirty': yesOrNo}
+
+        attributesManager.setPersistentAttributes(dishesStatus);
+        await attributesManager.savePersistentAttributes();
 
         if (yesOrNo === 'yes') {
             speakOutput = 'Ok, I will now say the dishes are dirty'
@@ -74,7 +113,7 @@ const CancelAndStopIntentHandler = {
 /* *
  * FallbackIntent triggers when a customer says something that doesn’t map to any intents in your skill
  * It must also be defined in the language model (if the locale supports it)
- * This handler can be safely added but will be ingnored in locales that do not support it yet 
+ * This handler can be safely added but will be ignored in locales that do not support it yet 
  * */
 const FallbackIntentHandler = {
     canHandle(handlerInput) {
@@ -144,13 +183,30 @@ const ErrorHandler = {
     }
 };
 
+const loadDishesStatus = {
+    async process(handlerInput) {
+        const attributesManager = handlerInput.attributesManager;
+        const sessionAttributes = await attributesManager.getPersistentAttributes() || {};
+
+        const areDishesDirty = sessionAttributes.hasOwnProperty('areDishesDirty') ? sessionAttributes.areDishesDirty : 0;
+        
+        if (areDishesDirty) {
+            attributesManager.setSessionAttributes(sessionAttributes);
+        }
+    }
+};
+
 /**
  * This handler acts as the entry point for your skill, routing all request and response
  * payloads to the handlers above. Make sure any new handlers or interceptors you've
  * defined are included below. The order matters - they're processed top to bottom 
  * */
 exports.handler = Alexa.SkillBuilders.custom()
+    .withPersistenceAdapter(
+        new persistenceAdapter.S3PersistenceAdapter({bucketName:process.env.S3_PERSISTENCE_BUCKET})
+        )
     .addRequestHandlers(
+        HasDishesLaunchRequestHandler,
         LaunchRequestHandler,
         CaptureBirthdayIntentHandler,
         HelpIntentHandler,
@@ -158,6 +214,9 @@ exports.handler = Alexa.SkillBuilders.custom()
         FallbackIntentHandler,
         SessionEndedRequestHandler,
         IntentReflectorHandler)
+    .addRequestInterceptors(
+        LoadBirthdayInterceptor
+    )
     .addErrorHandlers(
         ErrorHandler)
     .withCustomUserAgent('sample/hello-world/v1.2')
