@@ -38,7 +38,8 @@ const VisitedAgainLaunchRequestHandler = {
         const attributesManager = handlerInput.attributesManager;
         const sessionAttributes = attributesManager.getSessionAttributes() || {};
 
-        const areDishesDirty = sessionAttributes.hasOwnProperty('areDishesDirty') ? sessionAttributes.areDishesDirty : 0;
+        const areDishesDirty = sessionAttributes.hasOwnProperty('areDishesDirty') ? 
+            sessionAttributes.areDishesDirty.resolutionsPerAuthority[0].values[0].value.id : 0;
 
         let dishesStatus = '';
         let speakOutput = '';
@@ -76,7 +77,7 @@ const YesOrNoIntentHandler = {
             Alexa.getIntentName(handlerInput.requestEnvelope) === 'DishesStatusIntent';
     },
     async handle(handlerInput) {
-        const yesOrNo = handlerInput.requestEnvelope.request.intent.slots.YesOrNo.value;
+        const yesOrNo = handlerInput.requestEnvelope.request.intent.slots.YesOrNo.resolutionsPerAuthority[0].values[0].value.id;
         console.log('yes or no:' + yesOrNo);
         const attributesManager = handlerInput.attributesManager;
 
@@ -109,13 +110,13 @@ const CleanOrDirtyIntentHandler = {
             Alexa.getIntentName(handlerInput.requestEnvelope) === 'CleanOrDirtyResponseIntent';
     },
     async handle(handlerInput) {
-        const areOrAreNot = handlerInput.requestEnvelope.request.intent.slots.AreOrAreNot.value;
-        const dirtyOrClean = handlerInput.requestEnvelope.request.intent.slots.DirtyOrClean.value;
+        const areOrAreNot = handlerInput.requestEnvelope.request.intent.slots.AreOrAreNot.resolutionsPerAuthority[0].values[0].value.id;
+        const dirtyOrClean = handlerInput.requestEnvelope.request.intent.slots.DirtyOrClean.resolutionsPerAuthority[0].values[0].value.id;
         const attributesManager = handlerInput.attributesManager;
         let areDishesDirty = '';
         let speakOutput = '';
 
-        if ((areOrAreNot === 'are' && dirtyOrClean === 'dirty') || (areOrAreNot === 'are not' && dirtyOrClean === 'clean')) {
+        if ((areOrAreNot === 'are' && dirtyOrClean === 'dirty') || (areOrAreNot === 'areNot' && dirtyOrClean === 'clean')) {
             areDishesDirty = 'yes';
             speakOutput = "I'll remember the dishes are dirty";
         } else {
