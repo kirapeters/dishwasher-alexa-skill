@@ -84,7 +84,8 @@ const YesOrNoIntentHandler = {
 
         attributesManager.setPersistentAttributes(dishesStatus);
         await attributesManager.savePersistentAttributes();
-
+        
+        let speakOutput = '';
         if (yesOrNo === 'yes') {
             speakOutput = 'Ok, I will now say the dishes are dirty';
         } else if (yesOrNo === 'no') {
@@ -111,6 +112,7 @@ const CleanOrDirtyIntentHandler = {
         const dirtyOrClean = handlerInput.requestEnvelope.request.intent.slots.DirtyOrClean.value;
         const attributesManager = handlerInput.attributesManager;
         let areDishesDirty = '';
+        let speakOutput = '';
 
         if ((areOrAreNot === 'are' && dirtyOrClean === 'dirty') || (areOrAreNot === 'are not' && dirtyOrClean === 'clean')) {
             areDishesDirty = 'yes';
