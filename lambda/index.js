@@ -87,9 +87,9 @@ const YesOrNoIntentHandler = {
         
         let speakOutput = '';
         if (yesOrNo === 'yes') {
-            speakOutput = 'Ok, I will now say the dishes are dirty';
+            speakOutput = 'Ok, I say the dishes are dirty';
         } else if (yesOrNo === 'no') {
-            speakOutput = 'Ok, I will now say the dishes are clean';
+            speakOutput = 'Ok, I say the dishes are clean';
         }
         return handlerInput.responseBuilder
             .speak(speakOutput)
