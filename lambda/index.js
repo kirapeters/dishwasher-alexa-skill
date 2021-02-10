@@ -38,8 +38,7 @@ const VisitedAgainLaunchRequestHandler = {
         const attributesManager = handlerInput.attributesManager;
         const sessionAttributes = attributesManager.getSessionAttributes() || {};
 
-        const areDishesDirty = sessionAttributes.hasOwnProperty('areDishesDirty') ? 
-            sessionAttributes.areDishesDirty.value : 0;
+        const areDishesDirty = sessionAttributes.hasOwnProperty('areDishesDirty') ? sessionAttributes.areDishesDirty : 0;
         console.log('visited again areDishesDirty: ' + areDishesDirty);
 
         let dishesStatus = '';
