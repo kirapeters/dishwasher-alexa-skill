@@ -40,6 +40,7 @@ const VisitedAgainLaunchRequestHandler = {
 
         const areDishesDirty = sessionAttributes.hasOwnProperty('areDishesDirty') ? 
             sessionAttributes.areDishesDirty.resolutionsPerAuthority[0].values[0].value.id : 0;
+        console.log('visited again areDishesDirty: ' + areDishesDirty);
 
         let dishesStatus = '';
         let speakOutput = '';
@@ -111,6 +112,7 @@ const CleanOrDirtyIntentHandler = {
     },
     async handle(handlerInput) {
         const areOrAreNot = handlerInput.requestEnvelope.request.intent.slots.AreOrAreNot.resolutionsPerAuthority[0].values[0].value.id;
+        console.log('clean or dirty areDishesDirty: ' + areOrAreNot);
         const dirtyOrClean = handlerInput.requestEnvelope.request.intent.slots.DirtyOrClean.resolutionsPerAuthority[0].values[0].value.id;
         const attributesManager = handlerInput.attributesManager;
         let areDishesDirty = '';
