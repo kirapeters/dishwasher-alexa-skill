@@ -107,6 +107,7 @@ const CleanOrDirtyIntentHandler = {
             Alexa.getIntentName(handlerInput.requestEnvelope) === 'CleanOrDirtyResponseIntent';
     },
     async handle(handlerInput) {
+        const isAsking = handlerInput
         const areOrAreNot = handlerInput.requestEnvelope.request.intent.slots.AreOrAreNot.value;
         const dirtyOrClean = handlerInput.requestEnvelope.request.intent.slots.DirtyOrClean.value;
         const attributesManager = handlerInput.attributesManager;
@@ -137,7 +138,8 @@ const HelpIntentHandler = {
             Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
-        const speakOutput = 'You can say hello to me! How can I help?';
+        const speakOutput = `Set the status of your dishes by saying, tell my dishwasher my dishes are dirty?
+            Ask me what the status of the dishes are by saying, ask my dishwasher if the dishes are dirty.`;
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
