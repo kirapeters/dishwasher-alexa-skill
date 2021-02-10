@@ -60,6 +60,12 @@
             }
           ],
           "samples": [
+            "that the dishes in my dishwasher {AreOrAreNot} {DirtyOrClean}",
+            "that the dishes in the dishwasher {AreOrAreNot} {DirtyOrClean}",
+            "that my dishes {AreOrAreNot} {DirtyOrClean}",
+            "that the dishes {AreOrAreNot} {DirtyOrClean}",
+            "the dishes in the dishwasher {AreOrAreNot} {DirtyOrClean}",
+            "The dishes in my dishwasher {AreOrAreNot} {DirtyOrClean}",
             "My dishes {AreOrAreNot} {DirtyOrClean}",
             "They {AreOrAreNot} {DirtyOrClean}",
             "The dishes {AreOrAreNot} {DirtyOrClean}"
@@ -126,6 +132,7 @@
               "name": {
                 "value": "are not",
                 "synonyms": [
+                  "are not going to be",
                   "is not"
                 ]
               }
@@ -134,6 +141,7 @@
               "name": {
                 "value": "are",
                 "synonyms": [
+                  "are going to be",
                   "is"
                 ]
               }
@@ -180,5 +188,5 @@
       }
     ]
   },
-  "version": "8"
+  "version": "14"
 }

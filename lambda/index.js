@@ -107,7 +107,6 @@ const CleanOrDirtyIntentHandler = {
             Alexa.getIntentName(handlerInput.requestEnvelope) === 'CleanOrDirtyResponseIntent';
     },
     async handle(handlerInput) {
-        const isAsking = handlerInput
         const areOrAreNot = handlerInput.requestEnvelope.request.intent.slots.AreOrAreNot.value;
         const dirtyOrClean = handlerInput.requestEnvelope.request.intent.slots.DirtyOrClean.value;
         const attributesManager = handlerInput.attributesManager;

@@ -26,21 +26,41 @@
       }
     },
     "manifestVersion": "1.0",
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "containsAds": false,
+      "isChildDirected": false,
+      "isExportCompliant": true,
+      "locales": {
+        "en-US": {}
+      },
+      "usesPersonalInfo": false
+    },
     "publishingInformation": {
-      "category": "KNOWLEDGE_AND_TRIVIA",
+      "automaticDistribution": {
+        "isActive": false
+      },
+      "category": "HOME_SERVICES",
       "distributionCountries": [],
+      "distributionMode": "PUBLIC",
       "isAvailableWorldwide": true,
       "locales": {
         "en-US": {
-          "description": "Sample Full Description",
+          "description": "Sometimes you can't remember wether the dishes in the dishwasher are dirty or not. Tell Alexa, and she will remember for you!\n\nOpen up the skill with \"open my dishwasher\" to tell Alexa whether or not your dishes are dirty. Open it up a second time to know whether or not your dishes are dirty.\n\nYou can tell Alexa the state of your dishes anytime by saying \"Alexa, tell my dishwasher my dishes are clean.\"\n\nAsk Alexa whether your dishes are clean by saying \"Ask my dishwasher if my dishes are clean\".",
           "examplePhrases": [
-            "Alexa open hello world",
-            "hello",
-            "help"
+            "Alexa, open my dishwasher.",
+            "Tell my dishwasher the dishes are clean"
           ],
-          "keywords": [],
-          "name": "my dishwasher",
-          "summary": "Sample Short Description"
+          "keywords": [
+            "dishwasher",
+            "dishes",
+            "clean",
+            "dirty"
+          ],
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/f94a/f2e31f0cb60348269791fc855d4ac131/APP_ICON_LARGE?versionId=7rLaWSoFI8pZIn.it3z2VZyThwk9loOj&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210210T034105Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=AKIAWBV6LQ4QKQTYKJJO%2F20210210%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=575f153e222bc61a5416d0efd001f460874e28aef320c512c1b9ec24f6f6893c",
+          "name": "My Dishwasher",
+          "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/1091/26cc25274df2440581c9d11c0cf23443/APP_ICON?versionId=cqnb6empCLZbjp4GT84WwO5OZLe09bGN&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210210T034105Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=AKIAWBV6LQ4QKQTYKJJO%2F20210210%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=2e1ff2bbdc93cad6f0d37da4bec8752b5323226bfd4fc4845b6ef6827e330cd6",
+          "summary": "Alexa keeps track of whether your dishes are dirty or clean"
         }
       },
       "testingInstructions": "Sample Testing Instructions."
