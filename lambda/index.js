@@ -39,7 +39,7 @@ const VisitedAgainLaunchRequestHandler = {
         const sessionAttributes = attributesManager.getSessionAttributes() || {};
 
         const areDishesDirty = sessionAttributes.hasOwnProperty('areDishesDirty') ? 
-            sessionAttributes.areDishesDirty.resolutionsPerAuthority[0].values[0].value.id : 0;
+            sessionAttributes.areDishesDirty.value : 0;
         console.log('visited again areDishesDirty: ' + areDishesDirty);
 
         let dishesStatus = '';
@@ -78,7 +78,7 @@ const YesOrNoIntentHandler = {
             Alexa.getIntentName(handlerInput.requestEnvelope) === 'DishesStatusIntent';
     },
     async handle(handlerInput) {
-        const yesOrNo = handlerInput.requestEnvelope.request.intent.slots.YesOrNo.resolutionsPerAuthority[0].values[0].value.id;
+        const yesOrNo = handlerInput.requestEnvelope.request.intent.slots.YesOrNo.resolutions.resolutionsPerAuthority[0].values[0].value.id;
         console.log('yes or no:' + yesOrNo);
         const attributesManager = handlerInput.attributesManager;
 
@@ -111,9 +111,9 @@ const CleanOrDirtyIntentHandler = {
             Alexa.getIntentName(handlerInput.requestEnvelope) === 'CleanOrDirtyResponseIntent';
     },
     async handle(handlerInput) {
-        const areOrAreNot = handlerInput.requestEnvelope.request.intent.slots.AreOrAreNot.resolutionsPerAuthority[0].values[0].value.id;
+        const areOrAreNot = handlerInput.requestEnvelope.request.intent.slots.AreOrAreNot.resolutions.resolutionsPerAuthority[0].values[0].value.id;
         console.log('clean or dirty areDishesDirty: ' + areOrAreNot);
-        const dirtyOrClean = handlerInput.requestEnvelope.request.intent.slots.DirtyOrClean.resolutionsPerAuthority[0].values[0].value.id;
+        const dirtyOrClean = handlerInput.requestEnvelope.request.intent.slots.DirtyOrClean.resolutions.resolutionsPerAuthority[0].values[0].value.id;
         const attributesManager = handlerInput.attributesManager;
         let areDishesDirty = '';
         let speakOutput = '';
